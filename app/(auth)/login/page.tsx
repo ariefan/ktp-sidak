@@ -1,8 +1,35 @@
+"use client"
+
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { GalleryVerticalEnd } from "lucide-react"
 import { LoginForm } from "@/components/login-form"
 import { ModeToggle } from "@/components/mode-toggle"
+import { useMockAuth } from "@/hooks/use-mock-auth"
 
 export default function LoginPage() {
+    const router = useRouter()
+    const { isAuthenticated, isLoading } = useMockAuth()
+
+    useEffect(() => {
+        if (!isLoading && isAuthenticated) {
+            router.push("/dashboard")
+        }
+    }, [isAuthenticated, isLoading, router])
+
+    // Don't render anything if authenticated (will redirect)
+    if (isLoading) {
+        return (
+            <div className="flex h-screen items-center justify-center">
+                <div className="animate-pulse text-muted-foreground">Memuat...</div>
+            </div>
+        )
+    }
+
+    if (isAuthenticated) {
+        return null
+    }
+
     return (
         <div className="grid min-h-svh lg:grid-cols-2">
             <div className="flex flex-col gap-4 p-6 md:p-10 relative">

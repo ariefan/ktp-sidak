@@ -1,5 +1,7 @@
 "use client"
 
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { AppSidebar } from "@/components/app-sidebar"
 import { SyncIndicator } from "@/components/sync-indicator"
 import { ModeToggle } from "@/components/mode-toggle"
@@ -18,6 +20,7 @@ import {
     SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { usePathname } from "next/navigation"
+import { useMockAuth } from "@/hooks/use-mock-auth"
 
 export default function AppLayout({
     children,
@@ -25,6 +28,28 @@ export default function AppLayout({
     children: React.ReactNode
 }>) {
     const pathname = usePathname()
+    const router = useRouter()
+    const { isAuthenticated, isLoading } = useMockAuth()
+
+    useEffect(() => {
+        if (!isLoading && !isAuthenticated) {
+            router.push("/login")
+        }
+    }, [isAuthenticated, isLoading, router])
+
+    // Show loading state while checking auth
+    if (isLoading) {
+        return (
+            <div className="flex h-screen items-center justify-center">
+                <div className="animate-pulse text-muted-foreground">Memuat...</div>
+            </div>
+        )
+    }
+
+    // Don't render if not authenticated (will redirect)
+    if (!isAuthenticated) {
+        return null
+    }
 
     // Simple breadcrumb generator
     const getBreadcrumbs = () => {

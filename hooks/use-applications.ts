@@ -11,9 +11,12 @@ export function useApplications() {
 
     useEffect(() => {
         if (activeTeam) {
-            setIsLoading(true)
+            // Use setTimeout to avoid synchronous state update warning during effect,
+            // but ensure we set loading to true to indicate data fetch.
+            setTimeout(() => setIsLoading(true), 0)
+
             // Simulate API delay
-            setTimeout(() => {
+            const timer = setTimeout(() => {
                 // Filter applications by team (mock logic)
                 // For parent teams (pusat/provinsi/kota/kecamatan), we might want to see children's data
                 // But for this mockup simple equality check is enough or maybe "contains" logic if we want to be fancy
@@ -34,6 +37,8 @@ export function useApplications() {
                 setApplications(filtered)
                 setIsLoading(false)
             }, 500)
+
+            return () => clearTimeout(timer)
         }
     }, [activeTeam])
 

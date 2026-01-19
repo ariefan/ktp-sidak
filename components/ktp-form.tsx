@@ -205,7 +205,7 @@ export function KTPForm() {
                                 </div>
                                 <div className="bg-muted/30 p-2 rounded-xl border-dashed border-2">
                                     <SelfieCapture
-                                        onCapture={(file) => setFiles((prev: any) => ({ ...prev, fotoSelfie: file }))}
+                                        onCapture={(file) => setFiles((prev) => ({ ...prev, fotoSelfie: file }))}
                                     />
                                 </div>
                             </div>
@@ -223,7 +223,7 @@ export function KTPForm() {
                                     </div>
                                     <FileUploadMock
                                         label="Upload Kartu Keluarga"
-                                        onChange={(file) => setFiles((prev: any) => ({ ...prev, fotoKK: file }))}
+                                        onChange={(file) => setFiles((prev) => ({ ...prev, fotoKK: file }))}
                                     />
                                 </div>
 
@@ -240,7 +240,7 @@ export function KTPForm() {
                                         </div>
                                         <FileUploadMock
                                             label="Upload Surat Polisi"
-                                            onChange={(file) => setFiles((prev: any) => ({ ...prev, suratKehilangan: file }))}
+                                            onChange={(file) => setFiles((prev) => ({ ...prev, suratKehilangan: file }))}
                                         />
                                     </div>
                                 )}
@@ -258,7 +258,7 @@ export function KTPForm() {
                                         </div>
                                         <FileUploadMock
                                             label="Upload KTP Lama"
-                                            onChange={(file) => setFiles((prev: any) => ({ ...prev, fotoKTPLama: file }))}
+                                            onChange={(file) => setFiles((prev) => ({ ...prev, fotoKTPLama: file }))}
                                         />
                                     </div>
                                 )}

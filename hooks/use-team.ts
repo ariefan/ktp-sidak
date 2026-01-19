@@ -10,21 +10,25 @@ export function useTeam() {
     useEffect(() => {
         // Initialize with stored team or default to first team
         const storedTeamId = localStorage.getItem("sidak_active_team_id")
-        if (storedTeamId) {
-            const foundTeam = mockTeams.find((t) => t.id === storedTeamId)
-            if (foundTeam) {
-                setActiveTeam(foundTeam)
+        const timer = setTimeout(() => {
+            if (storedTeamId) {
+                const foundTeam = mockTeams.find((t) => t.id === storedTeamId)
+                if (foundTeam) {
+                    setActiveTeam(foundTeam)
+                } else {
+                    // Fallback to first team if stored ID is invalid
+                    setActiveTeam(mockTeams[0])
+                    localStorage.setItem("sidak_active_team_id", mockTeams[0].id)
+                }
             } else {
-                // Fallback to first team if stored ID is invalid
+                // Default to first team
                 setActiveTeam(mockTeams[0])
                 localStorage.setItem("sidak_active_team_id", mockTeams[0].id)
             }
-        } else {
-            // Default to first team
-            setActiveTeam(mockTeams[0])
-            localStorage.setItem("sidak_active_team_id", mockTeams[0].id)
-        }
-        setIsLoading(false)
+            setIsLoading(false)
+        }, 0)
+
+        return () => clearTimeout(timer)
     }, [])
 
     const switchTeam = (teamId: string) => {

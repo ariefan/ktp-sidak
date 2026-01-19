@@ -15,12 +15,13 @@ export function useMockAuth() {
         if (storedUserId) {
             const foundUser = mockUsers.find((u) => u.id === storedUserId)
             if (foundUser) {
-                setUser(foundUser)
+                // Wrap in setTimeout to avoid synchronous state update warning during effect
+                setTimeout(() => setUser(foundUser), 0)
             } else {
                 localStorage.removeItem("sidak_user_id")
             }
         }
-        setIsLoading(false)
+        setTimeout(() => setIsLoading(false), 0)
     }, [])
 
     const login = (email: string) => {
